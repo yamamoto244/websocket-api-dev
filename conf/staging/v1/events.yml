@@ -1,0 +1,702 @@
+user:
+  - http:
+      method: delete
+      path: user
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: user/sign_up
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: post
+      path: user/sign_in
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: delete
+      path: user/sign_out
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: user/confirmation
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          headers:
+            confirmation-token: true
+      cors:
+        origins: ${self:custom.stages.environment.${self:provider.stage}.cors.origins}
+        headers:
+          - Content-Type
+          - X-CSRF-TOKEN
+          - X-Amz-Date
+          - Authorization
+          - X-Api-Key
+          - X-Amz-Security-Token
+          - X-Amz-User-Agent
+          - Confirmation-Token
+        allowCredentials: ${self:custom.stages.environment.${self:provider.stage}.cors.allowCredentials}
+      private: true
+  - http:
+      method: post
+      path: user/password
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: get
+      path: user/profile
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          querystrings:
+            lang: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: user/profile/{key}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          headers:
+            confirmation-token: true
+          paths:
+            key: true
+      cors:
+        origins: ${self:custom.stages.environment.${self:provider.stage}.cors.origins}
+        headers:
+          - Content-Type
+          - X-CSRF-TOKEN
+          - X-Amz-Date
+          - Authorization
+          - X-Api-Key
+          - X-Amz-Security-Token
+          - X-Amz-User-Agent
+          - Confirmation-Token
+        allowCredentials: ${self:custom.stages.environment.${self:provider.stage}.cors.allowCredentials}
+      private: true
+  - http:
+      method: put
+      path: user/profile
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: put
+      path: user/profile/{key}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            key: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: get
+      path: user/posts
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          querystrings:
+            lang: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: get
+      path: user/points
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          querystrings:
+            history: false
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: get
+      path: user/credit_cards
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: user/credit_cards
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: put
+      path: user/credit_cards
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: delete
+      path: user/credit_cards
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: get
+      path: user/purchase
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: user/purchase
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: user/gifting
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+password:
+  - http:
+      method: post
+      path: password/forgot
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: post
+      path: password/reset
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          headers:
+            reset-password-token: true
+      cors:
+        origins: ${self:custom.stages.environment.${self:provider.stage}.cors.origins}
+        headers:
+          - Content-Type
+          - X-CSRF-TOKEN
+          - X-Amz-Date
+          - Authorization
+          - X-Api-Key
+          - X-Amz-Security-Token
+          - X-Amz-User-Agent
+          - Reset-Password-Token
+        allowCredentials: ${self:custom.stages.environment.${self:provider.stage}.cors.allowCredentials}
+      private: true
+provider:
+  - http:
+      method: get
+      path: provider/{provider}/sign
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            provider: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: post
+      path: provider/{provider}/sign
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            provider: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: provider/{provider}/connect
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            provider: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: provider/{provider}/connect
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            provider: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: delete
+      path: provider/{provider}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            provider: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+communities:
+  - http:
+      method: get
+      path: communities
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: communities/{id}/timeline
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: communities/{id}/profile
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: communities/{id}/ranking
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: communities/{id}/players
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: communities/{id}/digital_gifts
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: communities/{id}/rewards
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            open: false
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: post
+      path: communities/{id}/follow
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: delete
+      path: communities/{id}/follow
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: post
+      path: communities/{id}/post
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: delete
+      path: communities/{id}/post/{pid}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+            pid: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+players:
+  - http:
+      method: get
+      path: players/{id}/profile
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: players/{id}/posts
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+rewards:
+  - http:
+      method: get
+      path: rewards/{id}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: post
+      path: rewards/{id}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: delete
+      path: rewards/{id}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: get
+      path: rewards/{id}/ranking
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+posts:
+  - http:
+      method: get
+      path: posts/{id}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: post
+      path: posts/{id}/like
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: delete
+      path: posts/{id}/like
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: get
+      path: posts/{id}/comments
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: post
+      path: posts/{id}/comment
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+  - http:
+      method: delete
+      path: posts/{id}/comment/{cid}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+            cid: true
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}
+feeds:
+  - http:
+      method: get
+      path: feeds
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          querystrings:
+            lang: false
+            order: false
+            page: false
+            offset: false
+            limit: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+  - http:
+      method: get
+      path: feeds/{id}
+      reqValidatorName: onlyParams
+      request:
+        parameters:
+          paths:
+            id: true
+          querystrings:
+            lang: false
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+coupons:
+  - http:
+      method: post
+      path: coupons
+      reqValidatorName: onlyParams
+      cors: ${self:custom.stages.environment.${self:provider.stage}.cors}
+      private: true
+      authorizer:
+        name: verify-token
+        identitySource: method.request.header.Authorization
+        resultTtlInSeconds: ${self:custom.stages.environment.${self:provider.stage}.resultTtlInSeconds}

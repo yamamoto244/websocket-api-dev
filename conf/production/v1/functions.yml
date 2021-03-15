@@ -1,0 +1,89 @@
+verify-token:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/authorize.handler
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-authorize
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.authorizer}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.authorizer}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+user:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/user.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-user
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.user}
+password:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/password.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-password
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.password}
+provider:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/provider.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-provider
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.provider}
+communities:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/communities.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-communities
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.communities}
+players:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/players.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-players
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.players}
+rewards:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/rewards.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-rewards
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.rewards}
+posts:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/posts.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-posts
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.posts}
+feeds:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/feeds.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-feeds
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.feeds}
+coupons:
+  handler: ${self:custom.stages.environment.${self:provider.stage}.distDir}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/coupons.proxy
+  name: ${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}-${self:provider.stage}-coupons
+  memorySize: ${self:custom.stages.environment.${self:provider.stage}.memorySize.default}
+  timeout: ${self:custom.stages.environment.${self:provider.stage}.timeout.default}
+  onError: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+  environment: ${self:custom.stages.environment.${self:provider.stage}.environment}
+  vpc: ${self:custom.stages.environment.${self:provider.stage}.vpc}
+  events: ${self:custom.stages.events.${self:provider.stage}.coupons}

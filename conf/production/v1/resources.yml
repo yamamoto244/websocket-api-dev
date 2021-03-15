@@ -1,0 +1,121 @@
+Resources:
+  noValidator:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: NONE
+      RestApiId: ${self:custom.stages.environment.${self:provider.stage}.apiGateway.restApiId}
+      ValidateRequestBody: false
+      ValidateRequestParameters: false
+  onlyBody:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: 'Validate body'
+      RestApiId: ${self:custom.stages.environment.${self:provider.stage}.apiGateway.restApiId}
+      ValidateRequestBody: true
+      ValidateRequestParameters: false
+  bothBodyParams:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: 'Validate body, query string parameters, and headers'
+      RestApiId: ${self:custom.stages.environment.${self:provider.stage}.apiGateway.restApiId}
+      ValidateRequestBody: true
+      ValidateRequestParameters: true
+  onlyParams:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: 'Validate query string parameters and headers'
+      RestApiId: ${self:custom.stages.environment.${self:provider.stage}.apiGateway.restApiId}
+      ValidateRequestBody: false
+      ValidateRequestParameters: true
+  defaultRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      RoleName: ${self:custom.stages.environment.${self:provider.stage}.service}-${opt:stage, self:custom.defaultStage}-${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: ${self:custom.stages.environment.${self:provider.stage}.service}-${opt:stage, self:custom.defaultStage}-${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                Resource:
+                  - 'Fn::Join':
+                    - ':'
+                    -
+                      - 'arn:aws:logs'
+                      - Ref: 'AWS::Region'
+                      - Ref: 'AWS::AccountId'
+                      - 'log-group:/aws/lambda/*:*'
+              - Effect: Allow
+                Action:
+                  - logs:PutLogEvents
+                Resource:
+                  - 'Fn::Join':
+                    - ':'
+                    -
+                      - 'arn:aws:logs'
+                      - Ref: 'AWS::Region'
+                      - Ref: 'AWS::AccountId'
+                      - 'log-group:/aws/lambda/*:*:*'
+              - Effect: Allow
+                Action:
+                  - sns:Publish
+                Resource: ${self:custom.stages.environment.${self:provider.stage}.lambdaError}
+              - Effect: Allow
+                Action:
+                  - ec2:CreateNetworkInterface
+                  - ec2:DescribeNetworkInterfaces
+                  - ec2:DeleteNetworkInterface
+                  - xray:PutTraceSegments
+                  - xray:PutTelemetryRecords
+                  - ses:SendEmail
+                  - ses:SendRawEmail
+                Resource: '*'
+              - Effect: Allow
+                Action: rds-db:connect
+                Resource:
+                  'Fn::Join':
+                    - ':'
+                    -
+                      - 'arn:aws:rds-db'
+                      - Ref: 'AWS::Region'
+                      - Ref: 'AWS::AccountId'
+                      - 'dbuser'
+                      - 'Fn::Join':
+                        - ''
+                        -
+                          - 'prx-'
+                          - ${self:custom.stages.environment.${self:provider.stage}.rdsProxy}
+                          - '/*'
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                Resource:
+                  'Fn::Join':
+                    - ':'
+                    -
+                      - 'arn:aws:s3:::'
+                      - ${self:custom.stages.environment.${self:provider.stage}.environment.AWS_S3_BUCKET_NAME}
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource:
+                  'Fn::Join':
+                    - ':'
+                    -
+                      - 'arn:aws:s3:::'
+                      - ${self:custom.stages.environment.${self:provider.stage}.environment.AWS_S3_BUCKET_NAME}
+                      - '/*'

@@ -23,7 +23,7 @@ async function sendMessage(connectionId, body) {
 async function getAllConnections(ExclusiveStartKey) {
   const { Items, LastEvaluatedKey } = await dynamodb.scan({
     TableName: connectionTable,
-    AttributesToGet: [ 'connectionId' ],
+    AttributesToGet: [ 'cid' ],
     ExclusiveStartKey
   }).promise();
 

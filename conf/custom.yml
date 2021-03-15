@@ -1,0 +1,14 @@
+confDir: conf
+shareYml: share.yml
+defaultStage: development
+stages:
+  environment:
+    development: ${file(${self:custom.confDir}/${self:provider.stage}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/env.yml)}
+    staging: ${file(${self:custom.confDir}/${self:provider.stage}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/env.yml)}
+    production: ${file(${self:custom.confDir}/${self:provider.stage}/${opt:apiver, env:VERSION, file(${self:custom.confDir}/${self:custom.shareYml}):version}/env.yml)}
+serverless-offline:
+  httpPort: 5000
+  useChildProcesses: true
+prune:
+  automatic: true
+  number: 5
